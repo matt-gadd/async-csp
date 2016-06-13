@@ -9,12 +9,13 @@
   <h1> Async-CSP browser UMD example </h1>
   <h3> See console for output </h3>
 
-  <script src="../../dist/umd/async-csp.js"></script>
+  <script src="../../dist/umd/channel.js"></script>
+  <script src="../../dist/umd/data-structures.js"></script>
   <script>
     'use strict';
 
-    const Channel = window['async-csp'].Channel;
-    
+    const Channel = window['async-csp'].channel.Channel;
+
     let ch = new Channel(x => x * 2);
 
     ch.put(1).then(() => console.log('Put 1'));

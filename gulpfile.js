@@ -9,6 +9,7 @@ const sequence   = require('run-sequence');
 const uglify     = require('gulp-uglify');
 const webpack    = require('webpack-stream');
 const sourcemaps = require('gulp-sourcemaps');
+const named      = require('vinyl-named');
 
 require('babel-register'); // for mocha tests
 
@@ -27,8 +28,7 @@ function transpileUmd(config) {
     if (config === undefined) {
         config = {
             output: {
-                filename: singleFilename,
-                library: libraryName,
+                library: [libraryName, "[name]"],
                 libraryTarget: 'umd'
             },
             module: {
@@ -61,7 +61,8 @@ gulp.task('clean', done => {
 });
 
 gulp.task('build:umd', () => {
-    return gulp.src(`${srcDir}/${srcEntry}`)
+    return gulp.src(['src/channel.js', 'src/data-structures.js'])
+        .pipe(named())
         .pipe(transpileUmd())
         .pipe(sourcemaps.init())
         .pipe(gulp.dest(distUmdDir))
